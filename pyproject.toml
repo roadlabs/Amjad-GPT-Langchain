@@ -14,6 +14,7 @@ langchain = "^0.0.80"
 openai = "^0.26.5"
 faiss-cpu = "^1.7.3"
 "discord.py" = "^2.1.0"
+tiktoken = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"

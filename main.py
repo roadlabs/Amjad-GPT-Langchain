@@ -4,6 +4,7 @@ from langchain.prompts import Prompt
 import pickle
 from flask import Flask, request, jsonify
 import os
+from langchain.callbacks import get_openai_callback
 
 # Load the index from disk
 index = faiss.read_index("amjad.index")
@@ -51,23 +52,6 @@ Amjad Masad:"""
 prompt = Prompt(template=prompt_template,
                 input_variables=["history", "context", "question"])
 
-llm_chain = LLMChain(prompt=prompt,
-                     llm=OpenAI(temperature=0, model_name='text-davinci-003'))
-
-
-def on_message(question, history):
-  # Run a similarity search on the docs to get the most relevant context
-  docs = store.similarity_search(question)
-  contexts = []
-  for j, doc in enumerate(docs):
-    contexts.append(f"Context {j}:\n{doc.page_content}")
-  # Use the context to answer the question
-  answer = llm_chain.predict(question=question,
-                             context="\n\n".join(contexts),
-                             history=history)
-  return answer
-
-
 app = Flask(__name__)
 
 
@@ -81,6 +65,23 @@ def ask():
   req_data = request.get_json()
   if req_data['secret'] == os.environ["API_SECRET"]:
     try:
+      llm_chain = LLMChain(prompt=prompt,
+                           llm=OpenAI(
+                             temperature=0,
+                             model_name='text-davinci-003',
+                             openai_api_key=(req_data['apiKey'] or os.getenv('OPENAI_API_KEY'))
+                           ))
+
+      def on_message(question, history):
+        docs = store.similarity_search(question)
+        contexts = []
+        for j, doc in enumerate(docs):
+          contexts.append(f"Context {j}:\n{doc.page_content}")
+        answer = llm_chain.predict(question=question,
+                                   context="\n\n".join(contexts),
+                                   history=history)
+        return answer
+
       if (isinstance(req_data['question'], str)
           and isinstance(req_data["history"], list)
           and isinstance(req_data['username'], str)
@@ -107,6 +108,7 @@ def ask():
           "message": "Invalid Input"
         }), 400
     except Exception as e:
+      print(e)
       return jsonify({
         "answer": None,
         "success": False,

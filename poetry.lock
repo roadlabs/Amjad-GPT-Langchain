@@ -85,6 +85,20 @@ tests-no-zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "c
 tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "blobfile"
+version = "2.0.1"
+description = "Read GCS, ABS and local paths with the same interface, clone of tensorflow.io.gfile"
+category = "main"
+optional = false
+python-versions = ">=3.7.0"
+
+[package.dependencies]
+filelock = ">=3.0,<4.0"
+lxml = ">=4.9,<5.0"
+pycryptodomex = ">=3.8,<4.0"
+urllib3 = ">=1.25.3,<3"
+
+[[package]]
 name = "certifi"
 version = "2022.12.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -194,23 +208,24 @@ test = ["coverage", "pytest", "pytest-asyncio", "pytest-cov", "pytest-mock", "ty
 voice = ["PyNaCl (>=1.3.0,<1.6)"]
 
 [[package]]
-name = "faiss"
-version = "1.5.3"
-description = "A library for efficient similarity search and clustering of dense vectors"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-numpy = "*"
-
-[[package]]
 name = "faiss-cpu"
 version = "1.7.3"
 description = "A library for efficient similarity search and clustering of dense vectors."
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "filelock"
+version = "3.9.0"
+description = "A platform independent file lock."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+docs = ["furo (>=2022.12.7)", "sphinx-autodoc-typehints (>=1.19.5)", "sphinx (>=5.3)"]
+testing = ["covdefaults (>=2.2.2)", "coverage (>=7.0.1)", "pytest-cov (>=4)", "pytest-timeout (>=2.1)", "pytest (>=7.2)"]
 
 [[package]]
 name = "flask"
@@ -325,6 +340,20 @@ tenacity = ">=8.1.0,<9.0.0"
 [package.extras]
 all = ["faiss-cpu (>=1,<2)", "wikipedia (>=1,<2)", "elasticsearch (>=8,<9)", "redis (>=4,<5)", "manifest-ml (>=0.0.1,<0.0.2)", "spacy (>=3,<4)", "nltk (>=3,<4)", "transformers (>=4,<5)", "beautifulsoup4 (>=4,<5)", "torch (>=1,<2)", "jinja2 (>=3,<4)", "tiktoken (>=0,<1)", "pinecone-client (>=2,<3)", "weaviate-client (>=3,<4)", "google-api-python-client (==2.70.0)", "wolframalpha (==5.0.0)", "qdrant-client (>=0.11.7,<0.12.0)", "tensorflow-text (>=2.11.0,<3.0.0)"]
 llms = ["manifest-ml (>=0.0.1,<0.0.2)", "transformers (>=4,<5)", "torch (>=1,<2)"]
+
+[[package]]
+name = "lxml"
+version = "4.9.2"
+description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, != 3.4.*"
+
+[package.extras]
+cssselect = ["cssselect (>=0.7)"]
+html5 = ["html5lib"]
+htmlsoup = ["beautifulsoup4"]
+source = ["Cython (>=0.29.7)"]
 
 [[package]]
 name = "markupsafe"
@@ -572,6 +601,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "regex"
+version = "2022.10.31"
+description = "Alternative regular expression module, to replace re."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "replit"
 version = "3.2.5"
 description = "A library for interacting with features of repl.it"
@@ -698,6 +735,19 @@ python-versions = ">=3.6"
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
 
 [[package]]
+name = "tiktoken"
+version = "0.2.0"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+blobfile = ">=2"
+regex = ">=2022.1.18"
+requests = ">=2.26.0"
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -816,7 +866,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "95931abb49f1be960b335817f235eadeb39ac3d5bf2c163d206ecf9192bdcece"
+content-hash = "de66e5824927289634e991e033398f535097cacb594813b992cc76860ed5d738"
 
 [metadata.files]
 aiohttp = []
@@ -825,6 +875,7 @@ argon2-cffi = []
 argon2-cffi-bindings = []
 async-timeout = []
 attrs = []
+blobfile = []
 certifi = []
 cffi = []
 charset-normalizer = []
@@ -834,8 +885,8 @@ cryptography = []
 dataclasses-json = []
 debugpy = []
 "discord.py" = []
-faiss = []
 faiss-cpu = []
+filelock = []
 flask = []
 frozenlist = []
 greenlet = []
@@ -845,6 +896,7 @@ itsdangerous = []
 jedi = []
 jinja2 = []
 langchain = []
+lxml = []
 markupsafe = []
 marshmallow = []
 marshmallow-enum = []
@@ -866,12 +918,14 @@ pyseto = []
 python-lsp-jsonrpc = []
 pytoolconfig = []
 pyyaml = []
+regex = []
 replit = []
 replit-python-lsp-server = []
 requests = []
 rope = []
 sqlalchemy = []
 tenacity = []
+tiktoken = []
 toml = []
 tomli = []
 tqdm = []
