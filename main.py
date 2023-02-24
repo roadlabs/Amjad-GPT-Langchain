@@ -4,7 +4,6 @@ from langchain.prompts import Prompt
 import pickle
 from flask import Flask, request, jsonify
 import os
-from langchain.callbacks import get_openai_callback
 
 # Load the index from disk
 index = faiss.read_index("amjad.index")
